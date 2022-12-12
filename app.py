@@ -4,6 +4,12 @@ Created on Thu Dec  1 07:48:33 2022
 
 @author: Phoenix
 """
+#import os
+#import sys
+#path = "/Users/Phoenix/Documents/2022 FAll/MA 705/Dashboard/github"
+#os.chdir(path)
+#os.getcwd()
+
 import dash
 from dash import dcc
 from dash.dependencies import Input, Output
@@ -11,8 +17,8 @@ import dash_table
 import dash_html_components as html
 import plotly.express as px
 import pandas as pd
-state = pd.read_csv("/Users/Phoenix/Documents/2022 FAll/MA 705/Dashboard/salary_by_state.csv")
-code = pd.read_csv("/Users/Phoenix/Documents/2022 FAll/MA 705/Dashboard/state-abbrevs.csv")
+state = pd.read_csv("salary_by_state.csv")
+code = pd.read_csv("state-abbrevs.csv")
 state = state[['Area Name','Employment', 'Hourly mean wage','Annual mean wage',
             'Hourly 25th percentile wage', 'Hourly median wage',
             'Hourly 75th percentile wage','Annual 25th percentile wage',
@@ -51,7 +57,7 @@ app.layout = html.Div([
         sort_mode="multi",        
         column_selectable=False,  
         row_selectable="multi",   
-        row_deletable=True,         
+        row_deletable=False,         
         selected_columns=[],        
         selected_rows=[],           
         page_action="native",       
