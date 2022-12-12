@@ -4,11 +4,13 @@ Created on Thu Dec  1 07:48:33 2022
 
 @author: Phoenix
 """
-#import os
-#import sys
-#path = "/Users/Phoenix/Documents/2022 FAll/MA 705/Dashboard/github"
-#os.chdir(path)
-#os.getcwd()
+"""
+import os
+import sys
+path = "/Users/Phoenix/Documents/2022 FAll/MA 705/Dashboard/github"
+os.chdir(path)
+os.getcwd()
+"""
 
 import dash
 from dash import dcc
@@ -29,6 +31,8 @@ state_new = state[['Area Name','Employment','Employment per 1,000 jobs',
 state_new = pd.melt(state_new, id_vars="Area Name")
 state_new = pd.merge(state_new, code, left_on="Area Name", right_on="state")
 state_new = state_new[['Area Name', 'variable', 'value', 'abbreviation']]
+industry = pd.read_csv('employment by industry.csv')
+industry_new = pd.melt(industry, id_vars="Industry")
 
 
 stylesheet = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
@@ -63,11 +67,6 @@ app.layout = html.Div([
         selected_columns=[],        
         selected_rows=[],           
         page_action="native",       
-        style_cell_conditional=[
-        {'if': {'column_id': c},
-         'textAlign': 'left'
-        } for c in ['Date', 'Region']
-        ],
         style_data={
         'color': 'black',
         'backgroundColor': 'white',
@@ -95,7 +94,8 @@ app.layout = html.Div([
             'height': 'auto',
             # all three widths are needed
             'minWidth': '180px', 'width': '180px', 'maxWidth': '180px',
-            'whiteSpace': 'normal'}
+            'whiteSpace': 'normal',
+            'textAlign': 'left'}
     ),
     html.Br(),
     html.Br(),
@@ -107,10 +107,11 @@ app.layout = html.Div([
                      {"label": "Hourly mean wage", "value": "Hourly mean wage"},
                      {"label": "Annual mean wage", "value": "Annual mean wage"}],
                  multi=False,
-                 value="Employment",
-                 style={'width': "40%"}
+                 style={'width': "40%"},
+                 clearable=False,
+                 placeholder="Select a variable"
                  ),
-    html.Div(id='output_container', children=[]),
+    html.Div(id='bar_output_container', children=[]),
     html.Br(),
     html.Br(),
     dcc.Graph(id='bar', figure={}),
@@ -124,19 +125,92 @@ app.layout = html.Div([
                      {"label": "Hourly mean wage", "value": "Hourly mean wage"},
                      {"label": "Annual mean wage", "value": "Annual mean wage"}],
                  multi=False,
-                 value="Employment",
-                 style={'width': "40%"}
+                 style={'width': "40%"},
+                 clearable=False,
+                 placeholder="Select a variable"
                  ),
 
-    html.Div(id='output_container1', children=[]),
+    html.Div(id='geo_output_container', children=[]),
     html.Br(),
 
-    dcc.Graph(id='geo', figure={})
+    dcc.Graph(id='geo', figure={}),
+    html.Br(),
+    html.Br(),
+    html.H3('Query by Industries',
+            style = {'textAlign':'left'}),
+    html.H5('The following table shows the selected information of data scientist by industries',
+            style = {'textAlign':'left'}),
+    dash_table.DataTable(
+        id='datatable-interactivity2',
+        columns=[
+            {"name": i, "id": i, "deletable": False, "selectable": True, "hideable": False}
+            if i == 'Industry'
+            else {"name": i, "id": i, "deletable": False, "selectable": True,"hideable": True}
+            for i in industry.columns
+        ],
+        data=industry.to_dict('records'),  
+        editable=False,             
+        filter_action="native",     
+        sort_action="native",      
+        sort_mode="multi",        
+        column_selectable=False,  
+        row_selectable="multi",   
+        row_deletable=False,         
+        selected_columns=[],        
+        selected_rows=[],           
+        style_data={
+        'color': 'black',
+        'backgroundColor': 'white',
+        'whiteSpace': 'normal',
+        'height': 'auto',
+        'border': '1px solid blue'
+        },
+        style_data_conditional=[
+        {
+            'if': {'row_index': 'odd'},
+            'backgroundColor': 'rgb(167, 199, 231)',
+        }
+        ],
+        style_header={
+        'backgroundColor': 'rgb(240, 255, 255)',
+        'color': 'rgb(65, 105, 225)',
+        'font': 'Lato, sans-serif',
+        'fontWeight': 'bold',
+        'border': '1px solid blue' 
+         },
+        style_as_list_view=True,
+        fixed_rows={'headers': True},
+        style_table={'overflowX': 'auto'},
+        style_cell={
+            'height': 'auto',
+            # all three widths are needed
+            'minWidth': '180px', 'width': '180px', 'maxWidth': '180px',
+            'whiteSpace': 'normal',
+            'textAlign': 'left'}
+    ),
+    html.Br(),
+    html.Br(),
+    dcc.Dropdown(id="slct_variable2",
+                 options=[
+                     {"label": "Employment", "value": "Employment"},
+                     {"label": "Percent of industry employment",
+                          "value": "Percent of industry employment"},
+                     {"label": "Hourly mean wage", "value": "Hourly mean wage"},
+                     {"label": "Annual mean wage", "value": "Annual mean wage"}],
+                 multi=False,
+                 style={'width': "40%"},
+                 clearable=False,
+                 placeholder="Select a variable"
+                 ),
+    html.Div(id='bar_output_container2', children=[]),
+    html.Br(),
+    html.Br(),
+    dcc.Graph(id='bar2', figure={})
 ])
 
 # bar chart
 @app.callback(
-    [Output(component_id='output_container', component_property='children'),
+    [Output(component_id='bar_output_container', component_property='children'),
      Output(component_id='bar', component_property='figure')],
     [Input(component_id='slct_variable', component_property='value'),
      Input(component_id='datatable-interactivity', component_property='derived_virtual_selected_rows'),
@@ -175,7 +249,7 @@ def update_graph(option_slctd, slctd_row_indices,
 
 # map
 @app.callback(
-    [Output(component_id='output_container1', component_property='children'),
+    [Output(component_id='geo_output_container', component_property='children'),
      Output(component_id='geo', component_property='figure')],
     [Input(component_id='slct_variable1', component_property='value')]
 )
@@ -197,11 +271,55 @@ def update_graph1(option_slctd1):
         color='value',
         hover_data=['Area Name', 'value'],
         color_continuous_scale=px.colors.sequential.YlOrRd,
-        template="plotly_dark"
+        template="plotly_dark",
+        title=f'{option_slctd1} by States'
     )
     
     return container, fig1
 
+# bar chart 2
+@app.callback(
+    [Output(component_id='bar_output_container2', component_property='children'),
+     Output(component_id='bar2', component_property='figure')],
+    [Input(component_id='slct_variable2', component_property='value'),
+     Input(component_id='datatable-interactivity2', component_property='derived_virtual_selected_rows'),
+     Input(component_id='datatable-interactivity2', component_property='derived_virtual_selected_row_ids'),
+     Input(component_id='datatable-interactivity2', component_property='selected_rows'),
+     Input(component_id='datatable-interactivity2', component_property='derived_virtual_indices'),
+     Input(component_id='datatable-interactivity2', component_property='derived_virtual_row_ids'),
+     Input(component_id='datatable-interactivity2', component_property='active_cell'),
+     Input(component_id='datatable-interactivity2', component_property='selected_cells')]
+)
+def update_graph2(option_slctd, slctd_row_indices,
+                slct_rows_names, slctd_rows,
+               order_of_rows_indices, order_of_rows_names,
+               actv_cell, slctd_cell):
+    print(option_slctd)
+    print(type(option_slctd))
+
+    container = "The Variable chosen by user was: {}".format(option_slctd)
+
+    industry_new1 = industry_new.copy()
+    industry_new1 =  industry_new1[ industry_new1["variable"] == option_slctd]
+
+    colors = ['#7FDBFF' if i in slctd_rows else '#0074D9'
+              for i in range(len(industry_new1))]
+    # Plotly Express
+    fig3 = px.bar(
+            data_frame =  industry_new1,
+            x = 'Industry',
+            y = 'value',
+            title=f'{option_slctd} by Industry',
+            hover_data=['Industry', 'value'],
+            template="plotly_dark"
+        ).update_traces(marker_color=colors).update_layout(showlegend=False, xaxis={'categoryorder': 'total ascending'})
+    
+    return container, fig3
+
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)
+    
+    
+  
