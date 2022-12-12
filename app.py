@@ -42,7 +42,7 @@ app.layout = html.Div([
             style = {'textAlign':'center'}),
     html.H3('Query by States',
             style = {'textAlign':'left'}),
-    html.H5('The following tables shows the selected information of data scientist by states',
+    html.H5('The following table shows the selected information of data scientist by states',
             style = {'textAlign':'left'}),
     dash_table.DataTable(
         id='datatable-interactivity',
