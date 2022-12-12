@@ -38,9 +38,11 @@ app = dash.Dash(__name__, external_stylesheets=stylesheet,
 server = app.server
 
 app.layout = html.Div([
-    html.H1('My Really Awesome Dashboard',
+    html.H1('Data Scientist Query Site',
             style = {'textAlign':'center'}),
     html.H3('Query by States',
+            style = {'textAlign':'left'}),
+    html.H5('The following tables shows the selected information of data scientist by states',
             style = {'textAlign':'left'}),
     dash_table.DataTable(
         id='datatable-interactivity',
