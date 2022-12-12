@@ -44,9 +44,11 @@ server = app.server
 app.layout = html.Div([
     html.H1('Data Scientist Query Site',
             style = {'textAlign':'center'}),
-    html.H3('Query by States',
+    html.H2('Query by States',
             style = {'textAlign':'left'}),
-    html.H5('The following table shows the selected information of data scientist by states',
+    html.H5('The following table shows the selected information of data scientist by states.',
+            style = {'textAlign':'left'}),
+    html.H5('The check box will highlight the bar shown in the graph below:',
             style = {'textAlign':'left'}),
     dash_table.DataTable(
         id='datatable-interactivity',
@@ -111,7 +113,7 @@ app.layout = html.Div([
                  clearable=False,
                  placeholder="Select a variable"
                  ),
-    html.Div(id='bar_output_container', children=[]),
+    html.H6(id='bar_output_container', children=[]),
     html.Br(),
     html.Br(),
     dcc.Graph(id='bar', figure={}),
@@ -130,15 +132,17 @@ app.layout = html.Div([
                  placeholder="Select a variable"
                  ),
 
-    html.Div(id='geo_output_container', children=[]),
+    html.H6(id='geo_output_container', children=[]),
     html.Br(),
 
     dcc.Graph(id='geo', figure={}),
     html.Br(),
     html.Br(),
-    html.H3('Query by Industries',
+    html.H2('Query by Industries',
             style = {'textAlign':'left'}),
-    html.H5('The following table shows the selected information of data scientist by industries',
+    html.H5('The following table shows the selected information of data scientist by industries.',
+            style = {'textAlign':'left'}),
+    html.H5('The check box will highlight the bar shown in the graph below:',
             style = {'textAlign':'left'}),
     dash_table.DataTable(
         id='datatable-interactivity2',
@@ -202,10 +206,24 @@ app.layout = html.Div([
                  clearable=False,
                  placeholder="Select a variable"
                  ),
-    html.Div(id='bar_output_container2', children=[]),
+    html.H6(id='bar_output_container2', children=[]),
     html.Br(),
     html.Br(),
-    dcc.Graph(id='bar2', figure={})
+    dcc.Graph(id='bar2', figure={}),
+    html.Br(),
+    html.Br(),
+    dcc.Markdown('''
+        #### Support Documentation and Acknowlegement
+        This dashboard is made by Phoenix Qi at Bentley University under the Guidance
+        of Professor Luke Cherveny. Data are acquired from the U.S. Bureau of Labor
+        Statistics. Thanks for your interest. 
+    '''),
+    dcc.Markdown('''
+          If you interest in Bentley 
+          University or Professor Luke, please use the link here below: 
+          [Bentley University](https://www.bentley.edu/) and 
+          [Professor Luke](http://lukecherveny.com/).
+    ''')
 ])
 
 # bar chart
