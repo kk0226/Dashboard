@@ -44,17 +44,17 @@ app.layout = html.Div([
             else {"name": i, "id": i, "deletable": False, "selectable": True,"hideable": True}
             for i in state.columns
         ],
-        data=state.to_dict('records'),  # the contents of the table
-        editable=False,              # allow editing of data inside all cells
-        filter_action="native",     # allow filtering of data by user ('native') or not ('none')
-        sort_action="native",       # enables data to be sorted per-column by user or not ('none')
-        sort_mode="multi",         # sort across 'multi' or 'single' columns
-        column_selectable=False,  # allow users to select 'multi' or 'single' columns
-        row_selectable="multi",     # allow users to select 'multi' or 'single' rows
-        row_deletable=True,         # choose if user can delete a row (True) or not (False)
-        selected_columns=[],        # ids of columns that user selects
-        selected_rows=[],           # indices of rows that user selects
-        page_action="native",       # all data is passed to the table up-front or not ('none')
+        data=state.to_dict('records'),  
+        editable=False,             
+        filter_action="native",     
+        sort_action="native",      
+        sort_mode="multi",        
+        column_selectable=False,  
+        row_selectable="multi",   
+        row_deletable=True,         
+        selected_columns=[],        
+        selected_rows=[],           
+        page_action="native",       
         style_cell_conditional=[
         {'if': {'column_id': c},
          'textAlign': 'left'
