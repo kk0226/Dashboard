@@ -72,7 +72,7 @@ app.layout = html.Div([
             style = {'textAlign':'left','color':'rgb(210, 43, 43)'}),
     html.H6('- The highlighted bars can help to gauge the position among the whole distribution.',
             style = {'textAlign':'left'}),
-    html.H6('- For instance, users can check the California and observe taht it has the largest number of Employed Person.',
+    html.H6('- For instance, users can check the California and observe that it has the largest number of Employed Person.',
             style = {'textAlign':'left'}),
     html.H6('> Users can move mouse to the bar / geographic area in the figure to check specific measures for the given variable.',
             style = {'textAlign':'left','color':'rgb(210, 43, 43)'}),
