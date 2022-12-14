@@ -126,7 +126,6 @@ app.layout = html.Div([
         style_table={'overflowX': 'auto'},
         style_cell={
             'height': 'auto',
-            # all three widths are needed
             'minWidth': '180px', 'width': '180px', 'maxWidth': '180px',
             'whiteSpace': 'normal',
             'textAlign': 'left'}
@@ -221,7 +220,6 @@ app.layout = html.Div([
         style_table={'overflowX': 'auto'},
         style_cell={
             'height': 'auto',
-            # all three widths are needed
             'minWidth': '180px', 'width': '180px', 'maxWidth': '180px',
             'whiteSpace': 'normal',
             'textAlign': 'left'}
