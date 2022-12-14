@@ -173,7 +173,7 @@ app.layout = html.Div([
     html.Br(),
     html.Br(),
     html.H2('Query by Industries',
-            style = {'textAlign':'left'}),
+            style = {'textAlign':'left','color':'rgb(0, 59, 115)'}),
     html.H5('The following table shows the selected information of data scientist by industries.',
             style = {'textAlign':'left'}),
     html.H5('The check box will highlight the bar shown in the graph below:',
@@ -285,7 +285,7 @@ def update_graph(option_slctd, slctd_row_indices,
     state_new2 = state_new.copy()
     state_new2 = state_new2[state_new2["variable"] == option_slctd]
 
-    colors = ['#7FDBFF' if i in slctd_rows else '#0074D9'
+    colors = ['rgb(210, 43, 43)' if i in slctd_rows else '#0074D9'
               for i in range(len(state_new2))]
     # Plotly Express
     fig = px.bar(
@@ -354,7 +354,7 @@ def update_graph2(option_slctd, slctd_row_indices,
     industry_new1 = industry_new.copy()
     industry_new1 =  industry_new1[ industry_new1["variable"] == option_slctd]
 
-    colors = ['#7FDBFF' if i in slctd_rows else '#0074D9'
+    colors = ['rgb(210, 43, 43)' if i in slctd_rows else '#0074D9'
               for i in range(len(industry_new1))]
     # Plotly Express
     fig3 = px.bar(
