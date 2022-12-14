@@ -165,7 +165,8 @@ app.layout = html.Div([
                  placeholder="Select a variable"
                  ),
 
-    html.H6(id='geo_output_container', children=[]),
+    html.H6(id='geo_output_container', children=[],
+            style = {'textAlign':'left','color':'rgb(210, 43, 43)'}),
     html.Br(),
 
     dcc.Graph(id='geo', figure={}),
@@ -238,7 +239,8 @@ app.layout = html.Div([
                  clearable=False,
                  placeholder="Select a variable"
                  ),
-    html.H6(id='bar_output_container2', children=[]),
+    html.H6(id='bar_output_container2', children=[],
+            style = {'textAlign':'left','color':'rgb(210, 43, 43)'}),
     html.Br(),
     html.Br(),
     dcc.Graph(id='bar2', figure={}),
@@ -251,7 +253,7 @@ app.layout = html.Div([
         Statistics. Thanks for your interest. 
     '''),
     dcc.Markdown('''
-          If you interest in Bentley 
+          If you are interested in Bentley 
           University or Professor Luke, please use the link here below: 
           [Bentley University](https://www.bentley.edu/) and 
           [Professor Luke](http://lukecherveny.com/).
